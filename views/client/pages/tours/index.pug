@@ -1,5 +1,82 @@
 extends ../../layouts/default.pug
 include ../../mixins//box-head.pug
+block customStyles
+  style.
+    .custom-card {
+      border: 1px solid #e3e3e3;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Custom image styling */
+    .custom-card-img {
+      //- width: 100%;
+      //- height: auto;
+      width: auto;
+      height: 300px;
+      object-fit: cover;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    /* Custom card body */
+    .custom-card-body {
+      padding: 15px;
+      text-align: center;
+    }
+
+    /* Custom title styling */
+    .custom-card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    /* Custom price styling */
+    .custom-price-special {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #e74c3c; /* Red color for the special price */
+    }
+
+    .custom-price-original {
+      font-size: 1rem;
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    /* Custom discount styling */
+    .custom-discount {
+      font-size: 1.1rem;
+      color: #27ae60; /* Green color for the discount text */
+      margin-top: 10px;
+    }
+
+    /* Custom button styling */
+    .custom-btn-primary {
+      background-color: #3498db;
+      border-color: #3498db;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      font-weight: 600;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .custom-btn-primary:hover {
+      background-color: #2980b9;
+      border-color: #2980b9;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 block main 
   .container.my-3 
     .row 
@@ -7,6 +84,14 @@ block main
         +box-head(pageTitle)
 
 
-    ul 
+    .row
       each item in tours 
-        li #{item.title}
+        .col-6.mb-3
+          div(class="card custom-card")
+            img(src=item.image, class="custom-card-img")
+            div(class="card-body custom-card-body")
+              h5(class="card-title custom-card-title") #{item.title}
+              b(class="custom-price-special mr-2 mb-2") #{item.price_special.toLocaleString()}đ
+              del(class="custom-price-original mb-2") #{item.price.toLocaleString()}đ
+              p(class="custom-discount font-weight-bold") Giảm #{item.discount}%
+              a(href=`/tours/detail/${item.slug}` class="btn btn-primary custom-btn-primary") Xem chi tiết
