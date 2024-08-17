@@ -8,6 +8,9 @@ dotenv.config();
 const app: Express = express();
 const port: string | number = process.env.PORT || 3000;
 
+// nhúng file tĩnh
+app.use(express.static("public"));
+
 // cài đặt pug
 app.set("views", `./views`);
 app.set("view engine", "pug");
