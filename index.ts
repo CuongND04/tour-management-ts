@@ -1,7 +1,13 @@
 import express, { Express, Request, Response } from "express";
-const app: Express = express();
-const port: string | number = 3000;
+import sequelize from "./config/dataase";
+import dotenv from "dotenv";
+dotenv.config();
+sequelize; // nó là một cái biến nên chỉ cần gọi ra thôi
 
+const app: Express = express();
+const port: string | number = process.env.PORT || 3000;
+
+// cài đặt pug
 app.set("views", `./views`);
 app.set("view engine", "pug");
 
