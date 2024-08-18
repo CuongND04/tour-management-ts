@@ -53,7 +53,7 @@ const drawListTour = () => {
 
       const elementTotalPrice = document.querySelector("[total-price]");
       elementTotalPrice.innerHTML = data.total.toLocaleString();
-
+      updateQuantityInCart();
       deleteItemCart();
     });
 };
@@ -74,6 +74,26 @@ const deleteItemCart = () => {
 };
 
 // END Xóa sản phẩm trong giỏ hàng
+// Cập nhật số lượng trong giỏ hàng
+const updateQuantityInCart = () => {
+  const listInputQuantity = document.querySelectorAll("input[name='quantity']");
+  if (listInputQuantity.length > 0) {
+    listInputQuantity.forEach((input) => {
+      input.addEventListener("change", () => {
+        const quantity = parseInt(input.value);
+        const tourId = input.getAttribute("item-id");
 
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        const tourUpdate = cart.find((item) => item.tourId == tourId);
+        if (tourUpdate) {
+          tourUpdate.quantity = quantity;
+          localStorage.setItem("cart", JSON.stringify(cart));
+          drawListTour();
+        }
+      });
+    });
+  }
+};
+// Hết Cập nhật số lượng trong giỏ hàng
 // lấy ra dât và in ra giao diện
 drawListTour();
