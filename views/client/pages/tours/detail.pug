@@ -1,7 +1,69 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/moment.pug
+block customStyles 
+  style.
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
 
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+
+    .swiper {
+      width: 100%;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      background-size: cover;
+      background-position: center;
+    }
+
+    .imagesMain {
+      height: 80%;
+      width: 100%;
+    }
+
+    .imagesThumb {
+      height: 20%;
+      box-sizing: border-box;
+      padding: 10px 0;
+    }
+
+    .imagesThumb .swiper-slide {
+      width: 25%;
+      height: 100%;
+      opacity: 0.4;
+    }
+
+    .imagesThumb .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 block main
   .tour-detail
     .container.my-3
@@ -9,9 +71,21 @@ block main
         .col-6
           if(tourDetail.images)
             .inner-images
-              each image in tourDetail.images
-                .inner-image
-                  img(src=image)
+              div(class="swiper imagesMain")
+                div(class="swiper-wrapper")
+                  each image in tourDetail.images
+                    div(class="swiper-slide")
+                      .inner-image
+                        img(src=image)
+                div(class="swiper-button-next")
+                div(class="swiper-button-prev")
+
+              div(class="swiper imagesThumb")
+                div(class="swiper-wrapper")
+                  each image in tourDetail.images
+                    div(class="swiper-slide")
+                      .inner-image
+                        img(src=image)
 
         .col-6
           .inner-title #{tourDetail.title}
