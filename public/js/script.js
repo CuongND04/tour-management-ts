@@ -17,6 +17,24 @@ var imagesMain = new Swiper(".imagesMain", {
 });
 // end slide tour detail
 
+// alert-add-cart-susscess
+const alertAddCartSusscess = () => {
+  const elementAlert = document.querySelector("[alert-add-cart-susscess]");
+  if (elementAlert) {
+    elementAlert.classList.remove("alert-hidden");
+
+    setTimeout(() => {
+      elementAlert.classList.add("alert-hidden");
+    }, 3000);
+
+    const closeAlert = elementAlert.querySelector("[close-alert]");
+    closeAlert.addEventListener("click", () => {
+      elementAlert.classList.add("alert-hidden");
+    });
+  }
+};
+// End alert-add-cart-susscess
+
 // Cart
 // Khởi tạo giỏ hàng
 const cart = localStorage.getItem("cart");
@@ -31,7 +49,6 @@ if (formAddToCart) {
     event.preventDefault();
     const quantity = parseInt(formAddToCart.quantity.value);
     const tourId = parseInt(formAddToCart.getAttribute("tour-id"));
-    console.log(quantity, tourId);
 
     if (quantity > 0 && tourId) {
       // chuyển cart về mảng javascript
@@ -50,6 +67,7 @@ if (formAddToCart) {
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
+      alertAddCartSusscess();
     }
   });
 }
