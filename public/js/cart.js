@@ -57,7 +57,7 @@ const drawListTour = () => {
       deleteItemCart();
     });
 };
-
+// END Vẽ ra danh sách tour
 // Xóa sản phẩm trong giỏ hàng
 const deleteItemCart = () => {
   const listBtnDelete = document.querySelectorAll("[btn-delete]");
@@ -72,8 +72,8 @@ const deleteItemCart = () => {
     });
   });
 };
-
 // END Xóa sản phẩm trong giỏ hàng
+
 // Cập nhật số lượng trong giỏ hàng
 const updateQuantityInCart = () => {
   const listInputQuantity = document.querySelectorAll("input[name='quantity']");
@@ -95,5 +95,43 @@ const updateQuantityInCart = () => {
   }
 };
 // Hết Cập nhật số lượng trong giỏ hàng
-// lấy ra dât và in ra giao diện
+
+// lấy ra data và in ra giao diện
 drawListTour();
+// lấy ra data và in ra giao diện
+
+// Đặt tour
+const formOrder = document.querySelector("[form-order]");
+if (formOrder) {
+  formOrder.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const fullName = formOrder.fullName.value;
+    const phone = formOrder.phone.value;
+    const note = formOrder.note.value;
+
+    const cart = JSON.parse(localStorage.getItem("cart"));
+
+    const dataFinal = {
+      info: {
+        fullName: fullName,
+        phone: phone,
+        note: note,
+      },
+      cart: cart,
+    };
+
+    fetch("/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataFinal),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  });
+}
+// Hết Đặt tour
