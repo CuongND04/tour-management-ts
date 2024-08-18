@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import clientRoutes from "./routes/client/index.route";
 import moment from "moment";
+import bodyParser from "body-parser";
 // cấu hình file env
 dotenv.config();
 
@@ -14,6 +15,9 @@ app.use(express.static("public"));
 // cài đặt pug
 app.set("views", `./views`);
 app.set("view engine", "pug");
+
+// chuyển req nhận được thành json
+app.use(bodyParser.json());
 
 // app local variable
 app.locals.moment = moment;

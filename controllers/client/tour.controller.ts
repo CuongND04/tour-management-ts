@@ -49,16 +49,18 @@ export const detail = async (req: Request, res: Response) => {
     },
     raw: true,
   });
-  // chuyển chuỗi ảnh từ json về mảng js
-  if (tourDetail["images"]) {
-    tourDetail["images"] = JSON.parse(tourDetail["images"]);
+  if (tourDetail) {
+    // chuyển chuỗi ảnh từ json về mảng js
+    if (tourDetail["images"]) {
+      tourDetail["images"] = JSON.parse(tourDetail["images"]);
+    }
+
+    tourDetail["price_special"] =
+      tourDetail["price"] * (1 - tourDetail["discount"] / 100);
+
+    res.render("client/pages/tours/detail", {
+      pageTitle: "Chi tiết tour",
+      tourDetail: tourDetail,
+    });
   }
-
-  tourDetail["price_special"] =
-    tourDetail["price"] * (1 - tourDetail["discount"] / 100);
-
-  res.render("client/pages/tours/detail", {
-    pageTitle: "Chi tiết tour",
-    tourDetail: tourDetail,
-  });
 };
