@@ -35,6 +35,17 @@ const alertAddCartSusscess = () => {
 };
 // End alert-add-cart-susscess
 
+// Hiển thị số lượng vào mini cart
+const showMiniCart = () => {
+  const miniCart = document.querySelector("[mini-cart]");
+  if (miniCart) {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+    miniCart.innerHTML = totalQuantity;
+  }
+};
+showMiniCart();
+
 // Cart
 // Khởi tạo giỏ hàng
 const cart = localStorage.getItem("cart");
@@ -67,6 +78,7 @@ if (formAddToCart) {
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
+      showMiniCart();
       alertAddCartSusscess();
     }
   });
