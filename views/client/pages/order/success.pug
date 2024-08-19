@@ -1,0 +1,152 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/moment.pug
+block customStyles
+  style.
+    /* General Container */
+    .container.my-3 {
+      font-family: 'Roboto', sans-serif;
+      color: #2c3e50;
+    }
+
+    /* Alert Styling */
+    .custom-alert {
+      font-size: 1.25rem;
+      border-radius: 10px;
+      text-align: center;
+      background-color: #dff0d8;
+      border-color: #d0e9c6;
+      color: #3c763d;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Table Styling */
+    .custom-table {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .custom-thead {
+      background-color: #f8f9fa;
+    }
+
+    .custom-th {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #34495e;
+      padding: 10px;
+      text-align: left;
+    }
+
+    .custom-tbody tr {
+      transition: background-color 0.3s ease;
+    }
+
+    .custom-tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .custom-td {
+      font-size: 0.95rem;
+      padding: 10px;
+      vertical-align: middle;
+    }
+
+    /* Image Styling */
+    .custom-image {
+      border-radius: 5px;
+      max-width: 80px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Link Styling */
+    .custom-link {
+      color: #2980b9;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .custom-link:hover {
+      color: #1c6691;
+    }
+
+    /* Label and Data Styling */
+    .custom-label {
+      font-weight: 600;
+      color: #555;
+      width: 25%;
+    }
+
+    .custom-data {
+      color: #333;
+    }
+
+    /* Total Price Styling */
+    .custom-total {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #e74c3c;
+      text-align: right;
+    }
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        div(class="alert alert-success custom-alert") 
+          | Chúc mừng bạn đã đặt hàng thành công! Mã đơn hàng của bạn là 
+          b #{order.code}
+
+    .row
+      .col-12
+        +box-head("Thông tin khách hàng")
+
+        table(class="table table-bordered custom-table")
+          tbody
+            tr
+              td.custom-label Họ tên
+              td.custom-data #{order.fullName}
+            tr
+              td.custom-label Số điện thoại
+              td.custom-data #{order.phone}
+            tr
+              td.custom-label Ghi chú
+              td.custom-data #{order.note}
+            tr
+              td.custom-label Ngày đặt
+              td.custom-data 
+                +formatDateTime(order.createdAt)
+
+    .row
+      .col-12
+        +box-head("Danh sách tour")
+
+        table(class="table table-bordered custom-table")
+          thead.custom-thead
+            tr
+              th.custom-th STT
+              th.custom-th Ảnh
+              th.custom-th Tiêu đề
+              th.custom-th Giá
+              th.custom-th Số lượng
+              th.custom-th Tổng tiền
+              th.custom-th Ngày khởi hành
+          tbody.custom-tbody
+            each item, index in ordersItem
+              tr
+                td.custom-td #{index+1}
+                td.custom-td
+                  img(src=item.image, alt=item.title class="custom-image")
+                td.custom-td
+                  a(href=`/tours/detail/${item.slug}` class="custom-link") #{item.title}
+                td.custom-td #{item.price_special.toLocaleString()}đ
+                td.custom-td #{item.quantity}
+                td.custom-td #{item.total.toLocaleString()}đ
+                td.custom-td 
+                  +formatDateTime(item.timeStart)
+
+        h5(class="text-right mb-4 custom-total")
+          | Tổng đơn hàng: #{totalPrice.toLocaleString()}đ
