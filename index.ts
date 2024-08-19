@@ -20,7 +20,8 @@ app.set("view engine", "pug");
 
 // chuyển req nhận được thành json
 app.use(bodyParser.json());
-
+// xử lí body nhận từ form
+app.use(bodyParser.urlencoded({ extended: false }));
 // app local variable
 app.locals.moment = moment;
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
