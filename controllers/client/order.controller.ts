@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Order from "../../models/order.model";
 import { generateOrderCode } from "../../helper/generate";
+import Tour from "../../models/tour.model";
+import OrderItem from "../../models/order-item.model";
 
 // [POST] /order/
 export const order = async (req: Request, res: Response) => {
@@ -24,6 +26,25 @@ export const order = async (req: Request, res: Response) => {
       },
     }
   );
+  for (const item of data.cart) {
+    const dataItem = {
+      orderId,
+      tourId: item.tourId,
+      quantity: item.quantity,
+    };
+    const infoTour = await Tour.findOne({
+      where: {
+        id: item.tourId,
+        deleted: false,
+        status: "active",
+      },
+      raw: true,
+    });
+    dataItem["price"] = infoTour["price"];
+    dataItem["discount"] = infoTour["discount"];
+    dataItem["timeStart"] = infoTour["timeStart"];
+    await OrderItem.create(dataItem);
+  }
   res.json({
     code: 200,
     message: "Đặt hàng thành công!",
