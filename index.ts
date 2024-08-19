@@ -5,6 +5,7 @@ import { systemConfig } from "./config/system";
 import clientRoutes from "./routes/client/index.route";
 import moment from "moment";
 import bodyParser from "body-parser";
+import path from "path";
 // cấu hình file env
 dotenv.config();
 
@@ -26,6 +27,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.locals.moment = moment;
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
+// TinyMCE
+app.use(
+  "/tinymce",
+  express.static(path.join(__dirname, "node_modules", "tinymce"))
+);
+// End TinyMCE
 // client routes
 clientRoutes(app);
 // admin routes
